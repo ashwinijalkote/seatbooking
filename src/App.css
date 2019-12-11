@@ -24,6 +24,29 @@
   color: white;
 }
 
+.seat{
+  display: inline-block;
+  border: 1px solid grey;
+  width: 15px;
+  height: 15px;
+  padding: 5px;
+  margin: 5px;
+}
+.seat.void{
+  visibility: hidden;
+}
+
+.seat.available{
+  background: white;
+}
+.seat.booked{
+  background: grey;
+}
+
+.seat.selected{
+  background: green;
+}
+
 .App-link {
   color: #61dafb;
 }
