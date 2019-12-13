@@ -11,7 +11,8 @@ export default class Hall extends React.Component {
             cols: cols,
             hall: new Array(rows),
             noOfSeats: 0,
-            confirmDisabled: true
+            confirmDisabled: true,
+            totalPrice: 0
         };
         for(let i=0; i<rows; i++) {
             this.state.hall[i] = new Array(cols);
@@ -64,18 +65,20 @@ export default class Hall extends React.Component {
 
     handleChange(e) {
         this.deselectSelectedSeats();
-        this.setState({[e.target.name]: parseInt(e.target.value)});
+        this.setState({[e.target.name]: parseInt(e.target.value), totalPrice:0});
     }
 
     handleConfirmBooking() {
+        let totalPrice =0;
         for (let i = 0; i < this.state.rows; i++) {
             for (let j = 0; j < this.state.cols; j++) {
                 if(this.state.hall[i][j].status === 'selected'){
                     this.state.hall[i][j].status = 'booked';
+                    totalPrice += this.state.hall[i][j].price;
                 }
             }
         }
-        this.setState({confirmDisabled: true});
+        this.setState({confirmDisabled: true, totalPrice});
     }
 
     getRowNoFromSeatId(seatId) {
@@ -137,6 +140,10 @@ export default class Hall extends React.Component {
                     disabled={this.state.confirmDisabled}
                     onClick={this.handleConfirmBooking}
                     >Confirm</button>
+
+            <div className="price">
+                Total Price: <label>{this.state.totalPrice}</label>
+            </div>
         </div>)
     }
 }
