@@ -29,14 +29,15 @@ export default class Hall extends React.Component {
             }
         }
         this.handleChange=this.handleChange.bind(this);
+        this.handleConfirmBooking = this.handleConfirmBooking.bind(this);
      }
 
     handleClick(seatId) {
         let rowNo = this.getRowNoFromSeatId(seatId);
         let colNo = this.getColNoFromSeatId(seatId);
         let i =0;
-        debugger;
-        for (i = 0; i < this.state.noOfSeats; i++) {
+        this.deselectSelectedSeats();
+        for (i = 0; i < this.state.noOfSeats && colNo + i < this.state.cols; i++) {
             if (this.state.hall[rowNo][colNo + i].status === 'available') {
                 continue;
             } else {
@@ -51,12 +52,30 @@ export default class Hall extends React.Component {
         }
     }
 
+    deselectSelectedSeats() {
+        for (let i = 0; i < this.state.rows; i++) {
+            for (let j = 0; j < this.state.cols; j++) {
+                if(this.state.hall[i][j].status === 'selected'){
+                    this.state.hall[i][j].status = 'available';
+                }
+            }
+        }
+    }
+
     handleChange(e) {
+        this.deselectSelectedSeats();
         this.setState({[e.target.name]: parseInt(e.target.value)});
     }
 
     handleConfirmBooking() {
-
+        for (let i = 0; i < this.state.rows; i++) {
+            for (let j = 0; j < this.state.cols; j++) {
+                if(this.state.hall[i][j].status === 'selected'){
+                    this.state.hall[i][j].status = 'booked';
+                }
+            }
+        }
+        this.setState({confirmDisabled: true});
     }
 
     getRowNoFromSeatId(seatId) {
@@ -114,7 +133,10 @@ export default class Hall extends React.Component {
                    className="no-of-seats"
                    onChange={this.handleChange}
             />
-            <button disabled={this.state.confirmDisabled}>Confirm</button>
+            <button className="confirm"
+                    disabled={this.state.confirmDisabled}
+                    onClick={this.handleConfirmBooking}
+                    >Confirm</button>
         </div>)
     }
 }
