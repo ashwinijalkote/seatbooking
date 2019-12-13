@@ -51,6 +51,22 @@
   color: #61dafb;
 }
 
+.hall {
+  width: 50%;
+}
+
+.no-of-seats {
+  margin-top: 30px;
+}
+
+.confirm {
+  margin-left: 30px;
+}
+
+.price {
+  margin-top: 30px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
